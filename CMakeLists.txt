@@ -22,6 +22,6 @@ enable_testing()
 find_package(GTest REQUIRED)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm-libs})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm_libs})
 target_link_libraries(${PROJECT_NAME} PRIVATE CLI11::CLI11)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
