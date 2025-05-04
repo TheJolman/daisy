@@ -14,23 +14,29 @@
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
+        llvmVersion = pkgs.llvmPackages_19;
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            # tools
-            clang
             cmake
-            clang-tools
+            pkg-config
+            ninja
             cppcheck
+            llvmVersion.clang
+          ];
 
-            # libs
+          buildInputs = with pkgs; [
             cli11
             gtest
-            libllvm
+            llvmVersion.llvm
+            libxml2
+            libffi
           ];
 
           shellHook = ''
             export CXX=clang++
+            export CMAKE_CXX_COMPILER=clang++
+            export CMAKE_GENERATOR=Ninja
           '';
         };
       }

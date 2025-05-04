@@ -3,6 +3,6 @@
 #include <iostream>
 
 namespace test {
-void hi(){std::cout << "hi!!\n"}
+void test_libs();
 
 } // namespace test
