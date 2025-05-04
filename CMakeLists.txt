@@ -17,11 +17,22 @@ llvm_map_components_to_libnames(llvm_libs support core irreader)
 # CLI11
 find_package(CLI11 REQUIRED)
 
-# GTest
-enable_testing()
-find_package(GTest REQUIRED)
-
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm_libs})
 target_link_libraries(${PROJECT_NAME} PRIVATE CLI11::CLI11)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
+
+# GTest
+find_package(GTest REQUIRED)
+enable_testing()
+add_executable(
+  tests
+  tests/tests.cpp
+)
+target_link_libraries(
+  tests
+  GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(tests)
