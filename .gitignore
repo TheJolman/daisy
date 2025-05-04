@@ -34,3 +34,6 @@ build/
 
 # Nix related
 .direnv/
+
+# Clang related
+.cache/
