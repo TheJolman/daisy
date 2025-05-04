@@ -1,5 +1,5 @@
 {
-  description = "Generic Dev Environment";
+  description = "Daisy programming language";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
