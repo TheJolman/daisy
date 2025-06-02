@@ -1,4 +1,6 @@
 # Daisy Programming Language Specification
+Daisy is a statically typed programming language with manual memory management.
+It aims to be a somewhat of a modern C alternative.
 
 ## Primitive Types and Type System
 ### Numeric Types
