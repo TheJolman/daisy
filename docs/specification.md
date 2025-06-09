@@ -137,7 +137,7 @@ a: int32 = 5 + 3
 b: float32 = a as float32 / 3.0
 c: int32 = 8 / 3        // c = 2
 d: float32 = 5.0 / 2.0  // d = 2.5
-e: float64 = 5_float64 / 2_float54
+e: float64 = 5_float64 / 2_float64
 
 condition: bool = a > c
 ```
@@ -153,7 +153,7 @@ implementation.
 ```daisy
 if ptr == null {
     return 1
-} else if *ptr = true {
+} else if *ptr == true {
     // do something
 } else {
     // do something else
@@ -235,6 +235,8 @@ add: intFn = fn(a, b) {
 }
 ```
 
+Daisy will support function closures.
+
 ### Main function
 Daisy's compiler will look for an anonymous function that uses `main` instead of
 `fn` to begin execution at. The main function returns an integer to the process
@@ -262,7 +264,7 @@ type Person struct {
     _address: string  // private
 }
 
-mut joey := person{name: "joey", age: "300"}
+mut joey := person{name: "joey", age: 300}
 ```
 
 Fields can be accessed via the `.` syntax found in most modern languages.
@@ -297,13 +299,11 @@ type Person struct {
         self.age += amount
     }
 
-    _helper := fn(self.Person) -> () {  // private method
+    _helper := fn(self: Person) -> () {  // private method
         // do something
     }
 }
 ```
-
-> OPTIONAL BASED ON TIME: Support interfaces.
 
 ## Dynamic Memory Management
 Daisy has no garbage collector and ships with a few built in functions for
@@ -379,3 +379,12 @@ main() -> int32 {
     return 0
 }
 ```
+
+## Features Not Mentioned
+
+### Concurrency
+While Daisy is intended to be a language suitable for systems programming,
+concurrency is not a priority. Daisy will first be implemented as a single
+threaded language. If `daisyc` implements all features in this specification,
+work may be done to add concurrency on Unix using `pthreads.h` or similar
+threading library.
