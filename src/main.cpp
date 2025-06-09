@@ -1,4 +1,5 @@
 #include "CLI/CLI.hpp"
+#include "debug.hpp"
 #include "test.hpp"
 #include <exception>
 #include <format>
@@ -19,7 +20,8 @@ int main(int argc, char *argv[]) {
   for (const auto &file : source_files) {
     ss << std::format(" {}", file);
   }
-  std::cout << std::format("Compiling {} files:{}\n", source_files.size(), ss.str());
+  std::cout << std::format("Compiling {} files:{}\n", source_files.size(),
+                           ss.str());
 
   try {
     test::test_libs();
@@ -28,6 +30,7 @@ int main(int argc, char *argv[]) {
   }
 
   std::cout << std::format("Binary written to {}\n", output);
+  // Debug::log("Binary written to {}", output);
 
   return 0;
 }
