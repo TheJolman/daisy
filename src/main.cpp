@@ -1,20 +1,33 @@
 #include "CLI/CLI.hpp"
 #include "test.hpp"
+#include <exception>
+#include <format>
 
 int main(int argc, char *argv[]) {
-  CLI::App app{"Test"};
-  bool flag = false;
-  app.add_flag("-f,--flag", flag, "A flag");
+  CLI::App app{"daisy compiler"};
+
+  std::vector<std::string> source_files;
+  app.add_option("files", source_files, "Input files")
+      ->required()
+      ->type_name("<file>...");
+
+  std::string output = "a.out";
+  app.add_option("-o", output, "Write output to <file>")->type_name("<file>");
+
+  CLI11_PARSE(app, argc, argv);
+  std::stringstream ss;
+  for (const auto &file : source_files) {
+    ss << std::format(" {}", file);
+  }
+  std::cout << std::format("Compiling {} files:{}\n", source_files.size(), ss.str());
 
   try {
-    app.parse(argc, argv);
-    std::cout << "Flag is " << (flag ? "set" : "not set") << std::endl;
-  } catch (const CLI::ParseError &e) {
-    std::cerr << "Error parsing command line arguments: " << e.what() << std::endl;
-    return app.exit(e);
+    test::test_libs();
+  } catch (const std::exception e) {
+    std::cerr << std::format("Error creating llvm context: {}\n", e.what());
   }
 
-  test::test_libs();
+  std::cout << std::format("Binary written to {}\n", output);
 
   return 0;
 }
