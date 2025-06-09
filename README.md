@@ -1,10 +1,20 @@
 # daisy
-The Daisy programming language.
+The Daisy programming language. This repo contains `daisyc`, a compiler that implements the
+specification found in `docs/specification.md`.
+This language's design and implementation is a senior project for CSUF's
+undergraduate CS program.
 
+
+## Authors
+- Josh Holman  josh@jolman.me
+- Tomas Oh
+- Nathan Chen
+- Donovan Bosson
+
+## Development and usage:
 Prerequisites:
 Nix with flakes enabled.  
   
-### Development and usage:
 1. Enter dev shell and generate build files
 ```sh
 nix develop
@@ -25,3 +35,8 @@ cmake --build build --target tidy # run clang-tidy
   
 This project uses Google Test. 
 https://google.github.io/googletest/quickstart-cmake.html
+
+## Status
+Daisy's specification and compiler are a work in progress. Its spec is feature
+complete but subject to change. `daisyc` in currently being developed. Version 1.0.0
+is expected to be completed by December 2025.
