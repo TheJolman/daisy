@@ -16,12 +16,15 @@ int main(int argc, char *argv[]) {
   app.add_option("-o", output, "Write output to <file>")->type_name("<file>");
 
   CLI11_PARSE(app, argc, argv);
-  std::stringstream ss;
+
+#ifdef DEBUG
+  std::string files_str;
   for (const auto &file : source_files) {
-    ss << std::format(" {}", file);
+    files_str += std::format(" {}", file);
   }
-  std::cout << std::format("Compiling {} files:{}\n", source_files.size(),
-                           ss.str());
+  size_t size = source_files.size();
+  Debug::log("Compiling {} file{}:{}", size, size > 1 ? "s" : "", files_str);
+#endif
 
   try {
     test::test_libs();
@@ -29,8 +32,7 @@ int main(int argc, char *argv[]) {
     std::cerr << std::format("Error creating llvm context: {}\n", e.what());
   }
 
-  std::cout << std::format("Binary written to {}\n", output);
-  // Debug::log("Binary written to {}", output);
+  Debug::log("Binary written to {}", output);
 
   return 0;
 }

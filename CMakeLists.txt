@@ -18,6 +18,7 @@ llvm_map_components_to_libnames(llvm_libs support core irreader)
 find_package(CLI11 REQUIRED)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
+target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm_libs})
 target_link_libraries(${PROJECT_NAME} PRIVATE CLI11::CLI11)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
