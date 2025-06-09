@@ -8,7 +8,7 @@ Nix with flakes enabled.
 1. Enter dev shell and generate build files
 ```sh
 nix develop
-cmake --B build
+cmake -B build
 ```
 
 2. Build and use custom targets
