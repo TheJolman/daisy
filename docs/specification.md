@@ -142,6 +142,8 @@ e: float64 = 5_float64 / 2_float64
 condition: bool = a > c
 ```
 
+TODO: Define integer overflow behavior
+
 > OPTIONAL: Automatically assign integral literals to the correct value when
 > used with a statically typed variable. Example: `f: float64 = 3.14  // valid`
 
@@ -307,28 +309,32 @@ type Person struct {
 
 ## Dynamic Memory Management
 Daisy has no garbage collector and ships with a few built in functions for
-managing memory at runtime.
+managing memory at runtime. They are found behind the `mem` namespace in the
+standard library.
 
 ### `alloc()`
 The `alloc()` function takes two arguments: a type and size. It will always
 return a pointer of the correct type.
 ```daisy
+
 size := 100
-dynamicArr: int32* = alloc(int32, size)
+dynamicArr: int32* = mem::alloc(int32, size)
 ```
 
 ### `realloc()`
 `realloc()` takes two arguments: a pointer to an existing block of memory, and the
 new size. It returns nothing.
 ```daisy
-realloc(dynamicArr, 200)  // doubles size of dynamicArr
+import "mem"
+
+mem::realloc(dynamicArr, 200)  // doubles size of dynamicArr
 ```
 
 ### `free()`
 `free()` takes one argument: a pointer to an existing block of memory. It
 deallocates the memory attached to the pointer and assigns it the value `null`.
 ```daisy
-free(dynamicArr)
+mem::free(dynamicArr)
 ```
 
 ### defer
@@ -350,7 +356,8 @@ in C/C++.
 Files must have a top level namespace declared with the `namespace` keyword.
 Everything is exported by default unless named with a leading underscore.
 Identifiers can be used in files that import them by using the scope resolution
-operator `::`.
+operator `::`. Excluding the `.daisy` suffix will cause the linker to search in
+the standard library search paths.
 
 ```daisy
 // util.daisy
@@ -380,7 +387,63 @@ main() -> int32 {
 }
 ```
 
+## Error Handling
+Daisy does not feature exceptions. Error handling will be done like it is in C,
+using custom return types and error code checking.
+
+## Standard Library
+Daisy will feature a small standard library that includes functions for common
+operations like standard input/output, reading and writing to files, and memory
+management (previously mentioned).
+
+### Reading and Writing
+Included are a few functions used for reading and writing to both
+stdin/stdout/stderr as well as files.
+- `io::read()`
+- `io::write()`
+- `io::open()`
+- `io::close()`
+
+`read()` and `write()` take two arguments, a file/stream, and the contents to
+write. `io::stdin`, `io::stdout`, and `io::stderr` can be used here.  
+  
+`open()` takes a filename and mode as arguments. Modes can include (stolen from
+Lua docs):
+* "r": read mode (the default);
+* "w": write mode;
+* "a": append mode;
+* "r+": update mode, all previous data is preserved;
+* "w+": update mode, all previous data is erased;
+* "a+": append update mode, previous data is preserved, writing is only allowed at the end of file
+
+It returns a pointer to a file stream if successful and returns `null` otherwise.
+
+### String Formatting (IF TIME)
+- `fmt::fprintf()` function that works exactly as you would expect.
+
+### Math Functions and Constants (IF TIME)
+- `math::sqrt()`
+- `math::exp()`
+- `math::pi`
+
+## Compilation Model
+Daisy's compiler, `daisyc`, uses ahead of time compilation to compile Daisy
+source code to native machine code. It will first generate LLVM IR, which is
+then translated to native code.
+
+### Compiler CLI Usage
+`daisyc` will function very similarly to `gcc` or `clang`, albeit with less
+options.  
+Example:
+```sh
+daisyc main.daisy utils.daisy -o program
+```
+
 ## Features Not Mentioned
+
+### Enumerations
+Enumerated types would be nice and could be implemented once other features are
+complete.
 
 ### Concurrency
 While Daisy is intended to be a language suitable for systems programming,
@@ -388,3 +451,13 @@ concurrency is not a priority. Daisy will first be implemented as a single
 threaded language. If `daisyc` implements all features in this specification,
 work may be done to add concurrency on Unix using `pthreads.h` or similar
 threading library.
+
+### Conditional Compilation and Preprocessor Macros
+While an important feature for creating performant programs, Daisy will not
+support preprocessor macros or conditional compilation in this version of the
+specification.
+
+### Comprehensive compiler options
+`daisyc` will intentionally be kept as simple as possible and will not feature a
+comprehensive build system. Options and features will only be added as they are
+needed.
