@@ -14,7 +14,7 @@ It aims to be a somewhat of a modern C alternative.
 
 ### Chars and Strings
 - `char`, character literals are denoted using single quotes: `'a'`
-- `string`, string literals are denoted using double quotes: `"a"`
+- `string`, string literals are denoted using double quotes: `"abc"`
 
 Chars are 4 bytes wide and can represent any valid Unicode character.
 
@@ -270,6 +270,8 @@ Fields can be accessed via the `.` syntax found in most modern languages.
 joey.age = 301
 ```
 
+> OPTIONAL: Support `->` syntactic sugar found in C/C++.
+
 - `struct` literals can also be used:
 ```daisy
 myCar := struct {
@@ -308,7 +310,7 @@ Daisy has no garbage collector and ships with a few built in functions for
 managing memory at runtime.
 
 ### `alloc()`
-The `alloc()` function takes two arguments: a datatype and size. It will always
+The `alloc()` function takes two arguments: a type and size. It will always
 return a pointer of the correct type.
 ```daisy
 size := 100
