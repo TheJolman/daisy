@@ -59,6 +59,8 @@ enum class TokenType {
   kCharT,
   kStringT,
   kAnyT,
+
+  kEOF,
 };
 
 template <>
@@ -126,6 +128,7 @@ struct std::formatter<TokenType> {
       case TokenType::kCharT:      name = "CharT"; break;
       case TokenType::kStringT:    name = "StringT"; break;
       case TokenType::kAnyT:       name = "AnyT"; break;
+      case TokenType::kEOF:        name = "EOF"; break;
     }
     return std::format_to(ctx.out(), "{}", name);
   }

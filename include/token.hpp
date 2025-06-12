@@ -4,13 +4,14 @@
 #include <any>
 #include <format>
 #include <string>
+#include <optional>
 
 struct Token {
   const TokenType type;
   const std::string lexeme;
   const std::any literal; // may be safer to use std::variant here
   const int line;
-  Token(TokenType type, std::string lexeme, std::any literal, const int line)
+  Token(TokenType type, std::string lexeme, std::optional<std::any> literal, const int line)
       : type(type), lexeme(lexeme), literal(literal), line(line) {}
 };
 

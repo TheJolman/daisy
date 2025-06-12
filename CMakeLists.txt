@@ -6,7 +6,7 @@ project(daisyc CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES src/main.cpp src/test.cpp)
+set(SOURCES src/main.cpp src/test.cpp src/scanner.cpp)
 
 # LLVM
 find_package(LLVM REQUIRED CONFIG)
