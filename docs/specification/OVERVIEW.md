@@ -240,11 +240,10 @@ add: intFn = fn(a, b) {
 Daisy will support function closures.
 
 ### Main function
-Daisy's compiler will look for an anonymous function that uses `main` instead of
-`fn` to begin execution at. The main function returns an integer to the process
+Daisy's compiler will look for an function assigned to `main` to begin execution at. The main function returns an integer to the process.
 that called it.
 ```
-main() -> int32 {
+main := fn() -> int32 {
     // do stuff
     return 0
 }
@@ -381,7 +380,7 @@ namespace main
 
 import "util.daisy"
 
-main() -> int32 {
+main := fn() -> int32 {
     a := util::myPubFn
     return 0
 }
