@@ -42,7 +42,9 @@ All data types can be assigned to a pointer variable, like in C. Pointers can be
 dereferenced with `*`, and `&` can be used to access the address of a variable.
 ```daisy
 myVar := 4
-ptr: int32* = &myVar
+ptr: *int32 = &myVar
+// OR
+ptr := &myVar
 num: int32 = *ptr
 ```
 
@@ -65,7 +67,7 @@ casted to any type, used for **generic types**. Must be declared as a pointer an
 dereferenced to other pointer types.
 
 ```daisy
-ret: void* = myFunc()
+ret: *any = myFunc()
 num: int32 = *(ret as int32*)
 ```
 
@@ -296,7 +298,7 @@ type Person struct {
     mut age: int,
     _address: string  // private field
 
-    ageUp := fn(self: Person*, amount: int) -> () {
+    ageUp := fn(self: *Person, amount: int) -> () {
         self.age += amount
     }
 
@@ -313,11 +315,18 @@ standard library.
 
 ### `alloc()`
 The `alloc()` function takes two arguments: a type and size. It will always
-return a pointer of the correct type.
+return a pointer of the correct type. It returns `null` on failure. Like C's `calloc()`,
+`mem::alloc()` will initialize all values to 0.
 ```daisy
 
 size := 100
-dynamicArr: int32* = mem::alloc(int32, size)
+ptr: *int32 = mem::alloc(int32, size)
+// check if allocation was successful
+if ptr == null {
+    fmt::printf("Error allocating memory.")
+    return 1
+}
+
 ```
 
 ### `realloc()`
@@ -418,12 +427,41 @@ Lua docs):
 It returns a pointer to a file stream if successful and returns `null` otherwise.
 
 ### String Formatting (IF TIME)
+- `fmt::printf()` function that works exactly as you would expect.
 - `fmt::fprintf()` function that works exactly as you would expect.
 
 ### Math Functions and Constants (IF TIME)
 - `math::sqrt()`
 - `math::exp()`
 - `math::pi`
+
+### Error types
+Few ideas for error types:
+```daisy
+// Error only return value
+type Error *string;
+
+// Usage
+error := someFunc()
+if error != null {
+    // report error
+}
+```
+
+```
+// Error plus other return value
+type Ret struct {
+    error: Error,
+    value: *any,
+}
+
+// Usage
+ret := someFunc()
+if ret.error != null {
+    // report error
+}
+otherFunc(*ret.value)
+```
 
 ## Compilation Model
 Daisy's compiler, `daisyc`, uses ahead of time compilation to compile Daisy
