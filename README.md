@@ -38,5 +38,5 @@ https://google.github.io/googletest/quickstart-cmake.html
 
 ## Status
 Daisy's specification and compiler are a work in progress. Its spec is feature
-complete but subject to change. `daisyc` in currently being developed. Version 1.0.0
-is expected to be completed by December 2025.
+complete but subject to change. `daisyc` is currently being developed. Version 1.0.0
+is expected to be completed in December 2025.
