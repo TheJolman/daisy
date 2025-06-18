@@ -8,12 +8,36 @@
 #include <optional>
 
 class Scanner {
+public:
+  explicit Scanner(std::string_view source)
+      : source_(source), current_(source.begin()) {}
+
+  std::vector<Token> scanTokens();
+
 private:
-  const std::string source;
-  std::vector<Token> tokens;
-  int start = 0;
-  int current = 0;
-  int line = 1;
+  Token nextToken();
+  Token makeToken(TokenType type, size_t length);
+  Token number();
+  Token identifier();
+  std::optional<Token> string();
+  bool isAlpha(char c) const;
+  bool isAlphaNumeric(char c) const;
+  bool match(char expected) ;
+
+  char peek() const;
+  char peekNext() const;
+  char advance();
+  bool isAtEnd() const;
+  // void scanToken();
+  // void string();
+  // bool match(char expected);
+  // char peek();
+  // char peekNext();
+  // bool isAlpha(char c);
+  // bool isAlphaNumeric(char c);
+  // bool isDigit(char c);
+  // void addToken(TokenType type);
+  // void addToken(TokenType type, std::optional<std::any> literal);
 
   static const std::unordered_map<std::string, TokenType> &getKeywords() {
     static const std::unordered_map<std::string, TokenType> keywords = {
@@ -42,22 +66,8 @@ private:
     return keywords;
   }
 
-  void scanToken();
-  void identifier();
-  void number();
-  void string();
-  bool match(char expected);
-  char peek();
-  char peekNext();
-  bool isAlpha(char c);
-  bool isAlphaNumeric(char c);
-  bool isDigit(char c);
-  bool isAtEnd();
-  char advance();
-  void addToken(TokenType type);
-  void addToken(TokenType type, std::optional<std::any> literal);
-
-public:
-  Scanner(std::string source) : source(source) {}
-  std::vector<Token> scanTokens();
+  const std::string_view source_;
+  std::string_view::const_iterator current_;
+  size_t line_ = 1;
+  size_t column_ = 1;
 };

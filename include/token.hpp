@@ -1,25 +1,23 @@
 #pragma once
 
 #include "token_type.hpp"
-#include <any>
+// #include <any>
 #include <format>
-#include <string>
-#include <optional>
+// #include <string>
+#include <string_view>
+// #include <optional>
 
 struct Token {
   const TokenType type;
-  const std::string lexeme;
-  const std::any literal; // may be safer to use std::variant here
-  const int line;
-  Token(TokenType type, std::string lexeme, std::optional<std::any> literal, const int line)
-      : type(type), lexeme(lexeme), literal(literal), line(line) {}
+  const std::string_view lexeme;
+  const size_t line;
+  const size_t column;
 };
 
 template <> struct std::formatter<Token> {
   constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin(); }
 
   auto format(const Token &t, std::format_context &ctx) const {
-    return std::format_to(ctx.out(), "{} {} <literal>", t.type,
-                          t.lexeme); // issues with literal
+    return std::format_to(ctx.out(), "Line {} Col {}: {}", t.line, t.column, t.type, t.lexeme);
   }
 };
