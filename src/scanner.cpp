@@ -59,7 +59,7 @@ Token Scanner::identifier() {
   // TokenType type =
   //     it == getKeywords().end() ? TokenType::kIdentifier : it->second;
   // addToken(type);
-  return makeToken(TokenType::kNumber, std::distance(start, current_));
+  return makeToken(TokenType::kIdentifier, std::distance(start, current_));
 
 }
 
@@ -134,7 +134,7 @@ char Scanner::advance() {
 bool Scanner::isAtEnd() const { return current_ == source_.end(); }
 
 Token Scanner::makeToken(TokenType type, size_t length) {
-  return {type, {current_ - length, length}, line_, column_ - length};
+  return {type, std::string_view(current_ - length, length), line_, column_ - length};
 }
 //
 // void Scanner::addToken(TokenType type) { addToken(type, std::nullopt); }
