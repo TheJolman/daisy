@@ -18,6 +18,6 @@ template <> struct std::formatter<Token> {
   constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin(); }
 
   auto format(const Token &t, std::format_context &ctx) const {
-    return std::format_to(ctx.out(), "Line {} Col {}: {}", t.line, t.column, t.type, t.lexeme);
+    return std::format_to(ctx.out(), "Line {} Col {}: {} {}", t.line, t.column, t.type, t.lexeme);
   }
 };

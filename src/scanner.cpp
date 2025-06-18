@@ -36,6 +36,7 @@ Token Scanner::nextToken() {
     case '/': return makeToken(TokenType::kSlash, 1);
     case '(': return makeToken(TokenType::kLeftParen, 1);
     case ')': return makeToken(TokenType::kRightParen, 1);
+    case '"': return string();
     default:
       if (std::isdigit(c)) {
         return number();
@@ -44,7 +45,7 @@ Token Scanner::nextToken() {
         return identifier();
       }
   }
-  return Token{};
+  return makeToken(TokenType::kUnknown, 1);
 }
 
 Token Scanner::identifier() {
@@ -80,17 +81,15 @@ Token Scanner::number() {
 /**
  * Consumes string literals.
  */
-std::optional<Token> Scanner::string() {
+Token Scanner::string() {
   auto start = current_ - 1;
-  while (peek() != '"' && !Scanner::isAtEnd()) {
-    if (peek() == '\n')
-      line_++;
+  while (peek() != '"' && peek() != '\n' && !Scanner::isAtEnd()) {
     advance();
   }
 
-  if (isAtEnd()) {
-    std::cerr << std::format("ERROR: Unterminted string on line {}", line_);
-    return std::nullopt;
+  if (peek() != '"') {
+    std::cerr << std::format("ERROR: Unterminted string on line {}\n", line_);
+    return makeToken(TokenType::kString, std::distance(start, current_));
   }
 
   advance(); // consume closing quote

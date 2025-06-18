@@ -19,7 +19,7 @@ private:
   Token makeToken(TokenType type, size_t length);
   Token number();
   Token identifier();
-  std::optional<Token> string();
+  Token string();
   bool isAlpha(char c) const;
   bool isAlphaNumeric(char c) const;
   bool match(char expected) ;
@@ -28,14 +28,6 @@ private:
   char peekNext() const;
   char advance();
   bool isAtEnd() const;
-  // void scanToken();
-  // void string();
-  // bool match(char expected);
-  // char peek();
-  // char peekNext();
-  // bool isAlpha(char c);
-  // bool isAlphaNumeric(char c);
-  // bool isDigit(char c);
   // void addToken(TokenType type);
   // void addToken(TokenType type, std::optional<std::any> literal);
 

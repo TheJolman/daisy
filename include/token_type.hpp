@@ -60,6 +60,7 @@ enum class TokenType {
   kStringT,
   kAnyT,
 
+  kUnknown,
   kEOF,
 };
 
@@ -129,6 +130,8 @@ struct std::formatter<TokenType> {
       case TokenType::kStringT:    name = "StringT"; break;
       case TokenType::kAnyT:       name = "AnyT"; break;
       case TokenType::kEOF:        name = "EOF"; break;
+
+      case TokenType::kUnknown:    name = "Unknown"; break;
     }
     return std::format_to(ctx.out(), "{}", name);
   }
