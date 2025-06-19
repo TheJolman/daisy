@@ -70,11 +70,27 @@ void Scanner::scanToken() {
   case '!':
     addToken(match('=') ? TokenType::kBangEqual : TokenType::kBang);
     break;
+  case '|':
+    if (match('|'))
+      addToken(TokenType::kOrOr);
+  case '&':
+    if (match('&'))
+      addToken(TokenType::kAndAnd);
+  case ':':
+    if (match(':'))
+      addToken(TokenType::kColonColon);
+    else if (match('='))
+      addToken(TokenType::kWalrus);
+    else
+      addToken(TokenType::kColon);
   case ';':
     addToken(TokenType::kSemicolon);
     break;
   case '.':
     addToken(TokenType::kDot);
+    break;
+  case ',':
+    addToken(TokenType::kComma);
     break;
   case '(':
     addToken(TokenType::kLeftParen);
@@ -115,9 +131,8 @@ void Scanner::identifier() {
   auto it = getKeywords().find(text);
 
   TokenType type =
-      it == getKeywords().end() ? TokenType::kIdentifier : it->second;
+      (it == getKeywords().end() ? TokenType::kIdentifier : it->second);
   addToken(type);
-  addToken(TokenType::kIdentifier);
 }
 
 void Scanner::number() {

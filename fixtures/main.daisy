@@ -1,1 +1,10 @@
 1 + 1 "hi there" id_1
+for
+namespace
+mut i := 0
+type struct Person {
+  name: string
+  age: int32
+}
+a: any = null; b := 4
+

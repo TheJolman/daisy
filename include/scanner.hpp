@@ -1,18 +1,16 @@
 #pragma once
 
+#include "debug.hpp"
 #include "token.hpp"
 #include "token_type.hpp"
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "debug.hpp"
 
 class Scanner {
 public:
   explicit Scanner(std::string_view source)
-      : source_(source), current_(source.begin()) {
-  DEBUG_LOG("Scanner constructed: source_: {}, *current_: {}", source_, *current_);
-  }
+      : source_(source), current_(source.begin()) {}
 
   std::vector<Token> scanTokens();
 
@@ -24,7 +22,7 @@ private:
   void string();
   bool isAlpha(char c) const;
   bool isAlphaNumeric(char c) const;
-  bool match(char expected) ;
+  bool match(char expected);
 
   char peek() const;
   char peekNext() const;
@@ -33,27 +31,27 @@ private:
 
   static const std::unordered_map<std::string, TokenType> &getKeywords() {
     static const std::unordered_map<std::string, TokenType> keywords = {
-        {"Fn", TokenType::kFn},
-        {"As", TokenType::kAs},
-        {"For", TokenType::kFor},
-        {"Break", TokenType::kBreak},
-        {"If", TokenType::kIf},
-        {"Else", TokenType::kElse},
-        {"Return", TokenType::kReturn},
-        {"True", TokenType::kTrue},
-        {"False", TokenType::kFalse},
-        {"Mut", TokenType::kMut},
-        {"Namespace", TokenType::kNamespace},
-        {"Struct", TokenType::kStruct},
-        {"NullT", TokenType::kNullT},
-        {"Int32T", TokenType::kInt32T},
-        {"Int64T", TokenType::kInt64T},
-        {"Float32T", TokenType::kFloat32T},
-        {"Float64T", TokenType::kFloat64T},
-        {"BoolT", TokenType::kBoolT},
-        {"CharT", TokenType::kCharT},
-        {"StringT", TokenType::kStringT},
-        {"AnyT", TokenType::kAnyT},
+        {"fn", TokenType::kFn},
+        {"as", TokenType::kAs},
+        {"for", TokenType::kFor},
+        {"break", TokenType::kBreak},
+        {"if", TokenType::kIf},
+        {"else", TokenType::kElse},
+        {"return", TokenType::kReturn},
+        {"true", TokenType::kTrue},
+        {"false", TokenType::kFalse},
+        {"mut", TokenType::kMut},
+        {"namespace", TokenType::kNamespace},
+        {"struct", TokenType::kStruct},
+        {"null", TokenType::kNullT},
+        {"int32", TokenType::kInt32T},
+        {"int64", TokenType::kInt64T},
+        {"float32", TokenType::kFloat32T},
+        {"float64", TokenType::kFloat64T},
+        {"bool", TokenType::kBoolT},
+        {"char", TokenType::kCharT},
+        {"string", TokenType::kStringT},
+        {"any", TokenType::kAnyT},
     };
     return keywords;
   }

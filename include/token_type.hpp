@@ -17,7 +17,6 @@ enum class TokenType {
   kSemicolon,
   kSlash,
   kStar,
-  kColon,
 
   // One or two character tokens
   kBang,
@@ -30,7 +29,9 @@ enum class TokenType {
   kLessEqual,
   kAndAnd,
   kOrOr,
+  kColon,
   kColonColon,
+  kWalrus,
 
   // Literals
   kIdentifier,
@@ -87,7 +88,6 @@ struct std::formatter<TokenType> {
       case TokenType::kSemicolon:    name = "Semicolon"; break;
       case TokenType::kSlash:        name = "Slash"; break;
       case TokenType::kStar:         name = "Star"; break;
-      case TokenType::kColon:        name = "Colon"; break;
 
       // One or two character tokens
       case TokenType::kBang:          name = "Bang"; break;
@@ -100,7 +100,9 @@ struct std::formatter<TokenType> {
       case TokenType::kLessEqual:     name = "LessEqual"; break;
       case TokenType::kAndAnd:        name = "AndAnd"; break;
       case TokenType::kOrOr:          name = "OrOr"; break;
+      case TokenType::kColon:         name = "Colon"; break;
       case TokenType::kColonColon:    name = "ColonColon"; break;
+      case TokenType::kWalrus:        name = "Walrus"; break;
 
       // Literals
       case TokenType::kIdentifier:    name = "Identifier"; break;
