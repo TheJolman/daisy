@@ -26,11 +26,11 @@ void Scanner::scanToken() {
     advance();
   }
 
-
   char c = advance();
   DEBUG_LOG("c: {}", c);
 
   switch (c) {
+    // TODO: Finish this!
   case '+':
     addToken(TokenType::kPlus);
   case '-':
@@ -58,6 +58,8 @@ void Scanner::scanToken() {
 void Scanner::identifier() {
   while (isAlphaNumeric(peek()))
     advance();
+
+  // TODO: assign keyword enum when applicable
 
   // std::string text = source.substr(start, current - start);
   // auto it = getKeywords().find(text);

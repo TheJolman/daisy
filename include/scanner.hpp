@@ -30,8 +30,6 @@ private:
   char peekNext() const;
   char advance();
   bool isAtEnd() const;
-  // void addToken(TokenType type);
-  // void addToken(TokenType type, std::optional<std::any> literal);
 
   static const std::unordered_map<std::string, TokenType> &getKeywords() {
     static const std::unordered_map<std::string, TokenType> keywords = {

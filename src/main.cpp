@@ -1,8 +1,6 @@
 #include "CLI/CLI.hpp"
 #include "debug.hpp"
 #include "scanner.hpp"
-#include "test.hpp"
-#include <exception>
 #include <format>
 #include <fstream>
 
@@ -67,12 +65,6 @@ int main(int argc, char *argv[]) {
       outfile << std::format("{}\n", token);
     }
     DEBUG_LOG("File {}'s tokens read into outfile", filename);
-  }
-
-  try {
-    test::test_libs();
-  } catch (const std::exception e) {
-    std::cerr << std::format("Error creating llvm context: {}\n", e.what());
   }
 
   DEBUG_LOG("Binary written to {}", output);
