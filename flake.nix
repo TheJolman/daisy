@@ -23,6 +23,7 @@
             ninja
             cppcheck
             llvmVersion.clang
+            gdb
           ];
 
           buildInputs = with pkgs; [
