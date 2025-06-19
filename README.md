@@ -18,7 +18,9 @@ Nix with flakes enabled.
 1. Enter dev shell and generate build files
 ```sh
 nix develop
-cmake -B build
+cmake -B build # defaults to debug build
+# OR
+cmake -DCMAKE_BUILD_TYPE=Release -B build # release build
 ```
 
 2. Build and use custom targets
@@ -33,8 +35,8 @@ cmake --build build --target tidy # run clang-tidy
 ./build/daisyc main.daisy utils.daisy -o program
 ```
   
-This project uses Google Test. 
-https://google.github.io/googletest/quickstart-cmake.html
+This project uses Google Test.  
+For more info, see: https://google.github.io/googletest/quickstart-cmake.html
 
 ## Status
 Daisy's specification and compiler are a work in progress. Its spec is feature
