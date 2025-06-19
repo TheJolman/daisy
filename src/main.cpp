@@ -57,9 +57,10 @@ int main(int argc, char *argv[]) {
 
     std::stringstream buffer;
     buffer << file.rdbuf();
+    std::string source = buffer.str();
     DEBUG_LOG("File {} read into buffer", filename);
 
-    Scanner scanner{buffer.str()};
+    Scanner scanner{source};
     std::vector<Token> tokens = scanner.scanTokens();
     for (const auto &token : tokens) {
       outfile << std::format("{}\n", token);

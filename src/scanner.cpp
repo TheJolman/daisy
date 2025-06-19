@@ -4,13 +4,12 @@
 #include <iostream>
 
 std::vector<Token> Scanner::scanTokens() {
-  std::vector<Token> tokens;
   while (!isAtEnd()) {
     start_ = current_;
     scanToken();
   }
-  tokens.push_back({TokenType::kEOF, "", line_, column_});
-  return tokens;
+  tokens_.push_back({TokenType::kEOF, "", line_, column_});
+  return tokens_;
 }
 
 void Scanner::scanToken() {
@@ -30,28 +29,34 @@ void Scanner::scanToken() {
   DEBUG_LOG("c: {}", c);
 
   switch (c) {
-    // TODO: Finish this!
   case '+':
     addToken(TokenType::kPlus);
+    break;
   case '-':
     addToken(TokenType::kMinus);
+    break;
   case '*':
     addToken(TokenType::kStar);
+    break;
   case '/':
     addToken(TokenType::kSlash);
+    break;
   case '(':
     addToken(TokenType::kLeftParen);
+    break;
   case ')':
     addToken(TokenType::kRightParen);
+    break;
   case '"':
     string();
+    break;
   default:
     if (std::isdigit(c)) {
       number();
-    }
-    if (isAlpha(c)) {
+    } else if (isAlpha(c)) {
       identifier();
     }
+    break;
   }
 }
 
@@ -131,7 +136,6 @@ char Scanner::peek() const {
 
 char Scanner::advance() {
   column_++;
-  DEBUG_LOG("*current_: {}, *current_++: {}", *current_, *(current_ + 1));
   return *current_++;
 }
 
