@@ -59,7 +59,7 @@ private:
   }
 
   const std::string_view source_;
-  std::string_view::const_iterator current_;
+  std::string_view::iterator current_;
   size_t line_ = 1;
   size_t column_ = 1;
 };
