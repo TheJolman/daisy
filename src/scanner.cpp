@@ -5,7 +5,6 @@
 
 std::vector<Token> Scanner::scanTokens() {
   while (!isAtEnd()) {
-    start_ = current_;
     scanToken();
   }
   tokens_.push_back({TokenType::kEOF, "", line_, column_});
@@ -25,6 +24,7 @@ void Scanner::scanToken() {
     advance();
   }
 
+  start_ = current_;
   char c = advance();
   DEBUG_LOG("c: {}", c);
 
