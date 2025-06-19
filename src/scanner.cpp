@@ -1,11 +1,14 @@
 #include "scanner.hpp"
+#include "debug.hpp"
 #include "token_type.hpp"
 #include <iostream>
 
 std::vector<Token> Scanner::scanTokens() {
   std::vector<Token> tokens;
   while (!isAtEnd()) {
-    tokens.push_back(nextToken());
+    auto t = nextToken();
+    DEBUG_LOG("nextToken: {}", t);
+    tokens.push_back(t);
   }
   tokens.push_back({TokenType::kEOF, "", line_, column_});
   return tokens;
@@ -29,21 +32,30 @@ Token Scanner::nextToken() {
   }
 
   char c = advance();
+  DEBUG_LOG("c: {}", c);
+
   switch (c) {
-    case '+': return makeToken(TokenType::kPlus, 1);
-    case '-': return makeToken(TokenType::kMinus, 1);
-    case '*': return makeToken(TokenType::kStar, 1);
-    case '/': return makeToken(TokenType::kSlash, 1);
-    case '(': return makeToken(TokenType::kLeftParen, 1);
-    case ')': return makeToken(TokenType::kRightParen, 1);
-    case '"': return string();
-    default:
-      if (std::isdigit(c)) {
-        return number();
-      }
-      if (isAlpha(c)) {
-        return identifier();
-      }
+  case '+':
+    return makeToken(TokenType::kPlus, 1);
+  case '-':
+    return makeToken(TokenType::kMinus, 1);
+  case '*':
+    return makeToken(TokenType::kStar, 1);
+  case '/':
+    return makeToken(TokenType::kSlash, 1);
+  case '(':
+    return makeToken(TokenType::kLeftParen, 1);
+  case ')':
+    return makeToken(TokenType::kRightParen, 1);
+  case '"':
+    return string();
+  default:
+    if (std::isdigit(c)) {
+      return number();
+    }
+    if (isAlpha(c)) {
+      return identifier();
+    }
   }
   return makeToken(TokenType::kUnknown, 1);
 }
@@ -60,7 +72,6 @@ Token Scanner::identifier() {
   //     it == getKeywords().end() ? TokenType::kIdentifier : it->second;
   // addToken(type);
   return makeToken(TokenType::kIdentifier, std::distance(start, current_));
-
 }
 
 Token Scanner::number() {
@@ -105,9 +116,7 @@ bool Scanner::match(char expected) {
   return true;
 }
 
-bool Scanner::isAlpha(char c) const {
-  return std::isalpha(c) || c == '_';
-}
+bool Scanner::isAlpha(char c) const { return std::isalpha(c) || c == '_'; }
 
 bool Scanner::isAlphaNumeric(char c) const {
   return isAlpha(c) || std::isdigit(c);
@@ -128,15 +137,17 @@ char Scanner::peek() const {
 
 char Scanner::advance() {
   column_++;
+  DEBUG_LOG("*current_: {}, *current_++: {}", *current_, *(current_ + 1));
   return *current_++;
 }
 
 bool Scanner::isAtEnd() const { return current_ == source_.end(); }
 
 Token Scanner::makeToken(TokenType type, size_t length) {
-  return {type, std::string_view(current_ - length, length), line_, column_ - length};
+  return {type, std::string_view(current_ - length, length), line_,
+          column_ - length};
 }
-//
+
 // void Scanner::addToken(TokenType type) { addToken(type, std::nullopt); }
 //
 // void Scanner::addToken(TokenType type, std::optional<std::any> literal) {

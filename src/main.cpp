@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   for (const auto &file : source_files) {
     files_str += std::format(" {}", file);
   }
-  Debug::log("Compiling {} file{}:{}", num_files, num_files > 1 ? "s" : "",
+  DEBUG_LOG("Compiling {} file{}:{}", num_files, num_files > 1 ? "s" : "",
              files_str);
 #endif
 
@@ -59,14 +59,14 @@ int main(int argc, char *argv[]) {
 
     std::stringstream buffer;
     buffer << file.rdbuf();
-    Debug::log("File {} read into buffer", filename);
+    DEBUG_LOG("File {} read into buffer", filename);
 
     Scanner scanner{buffer.str()};
     std::vector<Token> tokens = scanner.scanTokens();
     for (const auto &token : tokens) {
       outfile << std::format("{}\n", token);
     }
-    Debug::log("File {}'s tokens read into outfile", filename);
+    DEBUG_LOG("File {}'s tokens read into outfile", filename);
   }
 
   try {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
     std::cerr << std::format("Error creating llvm context: {}\n", e.what());
   }
 
-  Debug::log("Binary written to {}", output);
+  DEBUG_LOG("Binary written to {}", output);
 
   return 0;
 }

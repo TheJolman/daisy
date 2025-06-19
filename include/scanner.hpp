@@ -5,12 +5,14 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <optional>
+#include "debug.hpp"
 
 class Scanner {
 public:
   explicit Scanner(std::string_view source)
-      : source_(source), current_(source.begin()) {}
+      : source_(source), current_(source.begin()) {
+  DEBUG_LOG("Scanner constructed: source_: {}, *current_: {}", source_, *current_);
+  }
 
   std::vector<Token> scanTokens();
 

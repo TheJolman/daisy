@@ -1,11 +1,8 @@
 #pragma once
 
 #include "token_type.hpp"
-// #include <any>
 #include <format>
-// #include <string>
 #include <string_view>
-// #include <optional>
 
 struct Token {
   const TokenType type;
