@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
    *   tokenize
    *   copy tokens into output file
    *
-   *   NOTE: If `import` statement is found, then copy contents of that file.
+   *   NOTE: If `import` statement is found, then stop and process contents of that file.
    *   For now this just copies all files. CLI prob needs to be adjusted when that is
    *   implemented.
    */
