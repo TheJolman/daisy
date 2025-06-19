@@ -26,7 +26,6 @@ void Scanner::scanToken() {
 
   start_ = current_;
   char c = advance();
-  DEBUG_LOG("c: {}", c);
 
   switch (c) {
   case '+':
@@ -39,13 +38,61 @@ void Scanner::scanToken() {
     addToken(TokenType::kStar);
     break;
   case '/':
-    addToken(TokenType::kSlash);
+    if (match('/')) { // comment
+      while (peek() != '\n' && !isAtEnd()) {
+        advance();
+      }
+    } else if (match('*')) { // multi-line comment
+      while (peek() != '*' && peekNext() != '/' && !isAtEnd()) {
+        if (advance() == '\n') {
+          line_++;
+        }
+      }
+      if (isAtEnd()) {
+        // TODO: Create custom errors
+        std::cerr << "ERROR: Unterminated multi-line comment\n";
+      }
+      advance();
+      advance();
+    } else {
+      addToken(TokenType::kSlash);
+    }
+    break;
+  case '<':
+    addToken(match('=') ? TokenType::kLessEqual : TokenType::kLess);
+    break;
+  case '>':
+    addToken(match('=') ? TokenType::kGreaterEqual : TokenType::kGreater);
+    break;
+  case '=':
+    addToken(match('=') ? TokenType::kEqualEqual : TokenType::kEqual);
+    break;
+  case '!':
+    addToken(match('=') ? TokenType::kBangEqual : TokenType::kBang);
+    break;
+  case ';':
+    addToken(TokenType::kSemicolon);
+    break;
+  case '.':
+    addToken(TokenType::kDot);
     break;
   case '(':
     addToken(TokenType::kLeftParen);
     break;
   case ')':
     addToken(TokenType::kRightParen);
+    break;
+  case '{':
+    addToken(TokenType::kLeftBrace);
+    break;
+  case '}':
+    addToken(TokenType::kRightBrace);
+    break;
+  case '[':
+    addToken(TokenType::kLeftBracket);
+    break;
+  case ']':
+    addToken(TokenType::kRightBracket);
     break;
   case '"':
     string();
@@ -64,14 +111,12 @@ void Scanner::identifier() {
   while (isAlphaNumeric(peek()))
     advance();
 
-  // TODO: assign keyword enum when applicable
+  auto text = std::string(start_, current_);
+  auto it = getKeywords().find(text);
 
-  // std::string text = source.substr(start, current - start);
-  // auto it = getKeywords().find(text);
-
-  // TokenType type =
-  //     it == getKeywords().end() ? TokenType::kIdentifier : it->second;
-  // addToken(type);
+  TokenType type =
+      it == getKeywords().end() ? TokenType::kIdentifier : it->second;
+  addToken(type);
   addToken(TokenType::kIdentifier);
 }
 
@@ -143,5 +188,6 @@ bool Scanner::isAtEnd() const { return current_ >= source_.end(); }
 
 void Scanner::addToken(TokenType type) {
   // TODO: Store literal
-  tokens_.emplace_back(Token{type, std::string_view(start_, current_), line_, column_});
+  tokens_.emplace_back(
+      Token{type, std::string_view(start_, current_), line_, column_});
 }
