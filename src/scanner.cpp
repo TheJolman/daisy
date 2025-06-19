@@ -139,7 +139,7 @@ char Scanner::advance() {
   return *current_++;
 }
 
-bool Scanner::isAtEnd() const { return current_ == source_.end(); }
+bool Scanner::isAtEnd() const { return current_ >= source_.end(); }
 
 void Scanner::addToken(TokenType type) {
   // TODO: Store literal
