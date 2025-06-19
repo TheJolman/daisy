@@ -43,7 +43,7 @@ private:
         {"mut", TokenType::kMut},
         {"namespace", TokenType::kNamespace},
         {"struct", TokenType::kStruct},
-        {"null", TokenType::kNullT},
+        {"null", TokenType::kNull},
         {"int32", TokenType::kInt32T},
         {"int64", TokenType::kInt64T},
         {"float32", TokenType::kFloat32T},

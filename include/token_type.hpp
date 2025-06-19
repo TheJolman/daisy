@@ -51,7 +51,7 @@ enum class TokenType {
   kMut,
   kNamespace,
   kStruct,
-  kNullT,
+  kNull,
   kInt32T,
   kInt64T,
   kFloat32T,
@@ -122,7 +122,7 @@ struct std::formatter<TokenType> {
       case TokenType::kMut:        name = "Mut"; break;
       case TokenType::kNamespace:  name = "Namespace"; break;
       case TokenType::kStruct:     name = "Struct"; break;
-      case TokenType::kNullT:      name = "NullT"; break;
+      case TokenType::kNull:      name = "Null"; break;
       case TokenType::kInt32T:     name = "Int32T"; break;
       case TokenType::kInt64T:     name = "Int64T"; break;
       case TokenType::kFloat32T:   name = "Float32T"; break;
