@@ -17,11 +17,11 @@ public:
   std::vector<Token> scanTokens();
 
 private:
-  Token nextToken();
-  Token makeToken(TokenType type, size_t length);
-  Token number();
-  Token identifier();
-  Token string();
+  void scanToken();
+  void addToken(TokenType type);
+  void number();
+  void identifier();
+  void string();
   bool isAlpha(char c) const;
   bool isAlphaNumeric(char c) const;
   bool match(char expected) ;
@@ -60,8 +60,10 @@ private:
     return keywords;
   }
 
+  std::vector<Token> tokens_;
   const std::string_view source_;
   std::string_view::iterator current_;
+  std::string_view::iterator start_;
   size_t line_ = 1;
   size_t column_ = 1;
 };

@@ -6,15 +6,14 @@
 std::vector<Token> Scanner::scanTokens() {
   std::vector<Token> tokens;
   while (!isAtEnd()) {
-    auto t = nextToken();
-    DEBUG_LOG("nextToken: {}", t);
-    tokens.push_back(t);
+    start_ = current_;
+    scanToken();
   }
   tokens.push_back({TokenType::kEOF, "", line_, column_});
   return tokens;
 }
 
-Token Scanner::nextToken() {
+void Scanner::scanToken() {
   // Skip whitespace
   while (!isAtEnd() && std::isspace(peek())) {
     // NOTE: Semicolon insertion might go here?
@@ -27,41 +26,36 @@ Token Scanner::nextToken() {
     advance();
   }
 
-  if (isAtEnd()) {
-    return {TokenType::kEOF, "", line_, column_};
-  }
 
   char c = advance();
   DEBUG_LOG("c: {}", c);
 
   switch (c) {
   case '+':
-    return makeToken(TokenType::kPlus, 1);
+    addToken(TokenType::kPlus);
   case '-':
-    return makeToken(TokenType::kMinus, 1);
+    addToken(TokenType::kMinus);
   case '*':
-    return makeToken(TokenType::kStar, 1);
+    addToken(TokenType::kStar);
   case '/':
-    return makeToken(TokenType::kSlash, 1);
+    addToken(TokenType::kSlash);
   case '(':
-    return makeToken(TokenType::kLeftParen, 1);
+    addToken(TokenType::kLeftParen);
   case ')':
-    return makeToken(TokenType::kRightParen, 1);
+    addToken(TokenType::kRightParen);
   case '"':
-    return string();
+    string();
   default:
     if (std::isdigit(c)) {
-      return number();
+      number();
     }
     if (isAlpha(c)) {
-      return identifier();
+      identifier();
     }
   }
-  return makeToken(TokenType::kUnknown, 1);
 }
 
-Token Scanner::identifier() {
-  auto start = current_ - 1;
+void Scanner::identifier() {
   while (isAlphaNumeric(peek()))
     advance();
 
@@ -71,11 +65,10 @@ Token Scanner::identifier() {
   // TokenType type =
   //     it == getKeywords().end() ? TokenType::kIdentifier : it->second;
   // addToken(type);
-  return makeToken(TokenType::kIdentifier, std::distance(start, current_));
+  addToken(TokenType::kIdentifier);
 }
 
-Token Scanner::number() {
-  auto start = current_ - 1;
+void Scanner::number() {
   while (std::isdigit(peek()))
     advance();
 
@@ -86,25 +79,24 @@ Token Scanner::number() {
   while (std::isdigit(peek()))
     advance();
 
-  return makeToken(TokenType::kNumber, std::distance(start, current_));
+  addToken(TokenType::kNumber);
 }
 
 /**
  * Consumes string literals.
  */
-Token Scanner::string() {
-  auto start = current_ - 1;
+void Scanner::string() {
   while (peek() != '"' && peek() != '\n' && !Scanner::isAtEnd()) {
     advance();
   }
 
   if (peek() != '"') {
     std::cerr << std::format("ERROR: Unterminted string on line {}\n", line_);
-    return makeToken(TokenType::kString, std::distance(start, current_));
+    addToken(TokenType::kString);
   }
 
   advance(); // consume closing quote
-  return makeToken(TokenType::kString, std::distance(start, current_));
+  addToken(TokenType::kString);
 }
 
 bool Scanner::match(char expected) {
@@ -143,13 +135,7 @@ char Scanner::advance() {
 
 bool Scanner::isAtEnd() const { return current_ == source_.end(); }
 
-Token Scanner::makeToken(TokenType type, size_t length) {
-  return {type, std::string_view(current_ - length, length), line_,
-          column_ - length};
+void Scanner::addToken(TokenType type) {
+  // TODO: Store literal
+  tokens_.emplace_back(Token{type, std::string_view(start_, current_), line_, column_});
 }
-
-// void Scanner::addToken(TokenType type) { addToken(type, std::nullopt); }
-//
-// void Scanner::addToken(TokenType type, std::optional<std::any> literal) {
-//   std::string text = source.substr(start, current - start);
-// }
