@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 
 #include "llvm/IR/LLVMContext.h"
 
@@ -8,6 +8,6 @@ namespace test {
 
 void test_libs() {
   llvm::LLVMContext context;
-  std::cout << "LLVMContext created successfully!" << std::endl;
+  std::println("LLVMContext created successfully!");
 }
 } // namespace test
