@@ -18,6 +18,7 @@
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            meson
             cmake
             pkg-config
             ninja
