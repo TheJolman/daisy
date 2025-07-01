@@ -2,11 +2,7 @@ project(
     'daisyc',
     'cpp',
     version: '1.0.0',
-    default_options: [
-        'cpp_std=c++23',
-        'warning_level=everything',
-        'werror=false',
-    ],
+    default_options: ['cpp_std=c++23', 'warning_level=3', 'werror=false'],
 )
 
 # Dependencies
@@ -40,20 +36,6 @@ test_exe = executable(
 test('unit_tests', test_exe)
 
 # Custom targets
-run_target(
-    'format',
-    command: ['clang-format', '-i', 'src/*.cpp', 'include/*.hpp'],
-)
+run_target('format', command: ['scripts/format.sh'])
 
-run_target(
-    'tidy',
-    command: [
-        'clang-tidy',
-        meson.current_source_dir() + 'src/*.cpp',
-        '-p',
-        meson.current_build_dir(),
-        '--',
-        '-I' + meson.current_source_dir() + '/include',
-        '--std=c++23',
-    ],
-)
+run_target('tidy', command: ['scripts/tidy.sh'])

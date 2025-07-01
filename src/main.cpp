@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   std::ofstream outfile(output);
   if (!outfile.is_open()) {
     std::println(std::cerr, "ERROR: Could not open file {} for writing",
-                             output);
+                 output);
     return 1;
   }
 
