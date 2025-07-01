@@ -2,43 +2,21 @@ project(
     'daisyc',
     'cpp',
     version: '1.0.0',
-    default_options: ['cpp_std=c++23', 'warning_level=3', 'werror=false'],
+    default_options: [
+        'cpp_std=c++23',
+        'warning_level=everything',
+        'werror=false',
+    ],
 )
 
-# Enable compile commands for language servers
-if meson.get_compiler('cpp').get_id() != 'msvc'
-    add_project_arguments('-Wall', '-Wextra', language: 'cpp')
-endif
-
-# Debug configuration
-if get_option('buildtype') == 'debug'
-    add_project_arguments(
-        '-DDEBUG',
-        '-g',
-        '-O0',
-        '-U_FORTIFY_SOURCE',
-        language: 'cpp',
-    )
-elif get_option('buildtype') == 'release'
-    add_project_arguments(
-        '-O3',
-        '-DNDEBUG',
-        '-D_FORTIFY_SOURCE=2',
-        language: 'cpp',
-    )
-endif
-
 # Dependencies
+add_languages('c', native: false)  # for llvm
 llvm_dep = dependency('llvm', required: true)
 cli11_dep = dependency('CLI11', required: true)
 gtest_dep = dependency('gtest', main: true, required: true)
 
-# Include directories
 inc_dir = include_directories('include')
-
-# Sources
-sources = files('src/main.cpp', 'src/scanner.cpp'
-, 'src/test.cpp')
+sources = files('src/main.cpp', 'src/scanner.cpp', 'src/test.cpp')
 
 # Main executable
 executable(
@@ -71,7 +49,7 @@ run_target(
     'tidy',
     command: [
         'clang-tidy',
-        'src/*.cpp',
+        meson.current_source_dir() + 'src/*.cpp',
         '-p',
         meson.current_build_dir(),
         '--',

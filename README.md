@@ -18,7 +18,7 @@ Nix with flakes enabled.
 1. Enter dev shell and generate build files
 ```sh
 nix develop
-meson setup build # defaults to debug build
+meson setup build --buildtype=debug # debug build
 # OR
 meson setup build --buildtype=release # release build
 ```

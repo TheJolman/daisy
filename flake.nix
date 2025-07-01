@@ -37,8 +37,9 @@
 
           shellHook = ''
             export CXX=clang++
-            export CMAKE_CXX_COMPILER=clang++
-            export CMAKE_GENERATOR=Ninja
+            export CC=clang
+            # export CMAKE_CXX_COMPILER=clang++
+            # export CMAKE_GENERATOR=Ninja
           '';
         };
       }
