@@ -1,7 +1,6 @@
 #pragma once
 
-#include <format>
-#include <iostream>
+#include <print>
 #include <source_location>
 #include <string_view>
 
@@ -12,8 +11,8 @@ public:
                   std::format_string<Args...> fmt, Args &&...args) {
 #ifdef DEBUG
     auto filename = trim_path(location.file_name());
-    std::cout << std::format("[DEBUG] [{}:{}] {}\n", filename, location.line(),
-                             std::format(fmt, std::forward<Args>(args)...));
+    std::println("[DEBUG] [{}:{}] {}", filename, location.line(),
+                 std::format(fmt, std::forward<Args>(args)...));
 #endif
   }
 

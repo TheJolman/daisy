@@ -2,6 +2,7 @@
 #include "debug.hpp"
 #include "token_type.hpp"
 #include <iostream>
+#include <print>
 
 std::vector<Token> Scanner::scanTokens() {
   while (!isAtEnd()) {
@@ -50,7 +51,7 @@ void Scanner::scanToken() {
       }
       if (isAtEnd()) {
         // TODO: Create custom errors
-        std::cerr << "ERROR: Unterminated multi-line comment\n";
+        std::println(std::cerr, "ERROR: Unterminated multi-line comment");
       }
       advance();
       advance();
@@ -158,7 +159,7 @@ void Scanner::string() {
   }
 
   if (peek() != '"') {
-    std::cerr << std::format("ERROR: Unterminted string on line {}\n", line_);
+    std::println(std::cerr, "ERROR: Unterminted string on line {}", line_);
     addToken(TokenType::kString);
   }
 
