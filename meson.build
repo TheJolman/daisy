@@ -1,8 +1,8 @@
 project(
-    'daisyc',
-    'cpp',
-    version: '0.0.1',
-    default_options: ['cpp_std=c++23', 'warning_level=3', 'werror=false'],
+  'daisyc',
+  'cpp',
+  version: '0.0.1',
+  default_options: ['cpp_std=c++23', 'warning_level=3', 'werror=false'],
 )
 
 # Dependencies
@@ -16,21 +16,21 @@ sources = files('src/main.cpp', 'src/scanner.cpp', 'src/test.cpp')
 
 # Main executable
 executable(
-    'daisyc',
-    sources,
-    include_directories: inc_dir,
-    dependencies: [llvm_dep, cli11_dep],
-    install: true,
+  'daisyc',
+  sources,
+  include_directories: inc_dir,
+  dependencies: [llvm_dep, cli11_dep],
+  install: true,
 )
 
 # Tests
 test_sources = files('tests/tests.cpp')
 test_exe = executable(
-    'tests',
-    test_sources,
-    include_directories: inc_dir,
-    dependencies: [gtest_dep],
-    build_by_default: false,
+  'tests',
+  test_sources,
+  include_directories: inc_dir,
+  dependencies: [gtest_dep],
+  build_by_default: false,
 )
 
 test('unit_tests', test_exe)

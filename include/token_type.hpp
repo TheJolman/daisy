@@ -71,8 +71,8 @@ template <> struct std::formatter<TokenType> {
   auto format(TokenType t, std::format_context &ctx) const {
     std::string_view name = "Unknown";
     switch (t) {
-    // Single character tokens
-    // clang-format off
+      // Single character tokens
+      // clang-format off
       case TokenType::kLeftParen:    name = "LeftParen"; break;
       case TokenType::kRightParen:   name = "RightParen"; break;
       case TokenType::kLeftBrace:    name = "LeftBrace"; break;
