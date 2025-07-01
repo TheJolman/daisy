@@ -18,16 +18,16 @@ Nix with flakes enabled.
 1. Enter dev shell and generate build files
 ```sh
 nix develop
-cmake -B build # defaults to debug build
+meson setup build --buildtype=debug # debug build
 # OR
-cmake -DCMAKE_BUILD_TYPE=Release -B build # release build
+meson setup build --buildtype=release # release build
 ```
 
 2. Build and use custom targets
 ```sh
-cmake --build build # compile
-cmake --build build --target format # run clang-format
-cmake --build build --target tidy # run clang-tidy
+meson compile -C build # compile
+meson compile -C build format # run clang-format
+meson compile -C build tidy # run clang-tidy
 ```
 
 3. Run
@@ -35,7 +35,7 @@ cmake --build build --target tidy # run clang-tidy
 ./build/daisyc main.daisy utils.daisy -o program
 ```
   
-This project uses Google Test.  
+This project uses Google Test. Run tests with `meson test -C build`.  
 For more info, see: https://google.github.io/googletest/quickstart-cmake.html
 
 ## Status

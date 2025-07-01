@@ -65,14 +65,12 @@ enum class TokenType {
   kEOF,
 };
 
-template <>
-struct std::formatter<TokenType> {
-  constexpr auto parse(std::format_parse_context& ctx) {
-    return ctx.begin();
-  }
+template <> struct std::formatter<TokenType> {
+  constexpr auto parse(std::format_parse_context &ctx) { return ctx.begin(); }
 
-  auto format(TokenType t, std::format_context& ctx) const {
+  auto format(TokenType t, std::format_context &ctx) const {
     std::string_view name = "Unknown";
+    // clang-format off
     switch (t) {
       // Single character tokens
       case TokenType::kLeftParen:    name = "LeftParen"; break;
@@ -90,51 +88,51 @@ struct std::formatter<TokenType> {
       case TokenType::kStar:         name = "Star"; break;
 
       // One or two character tokens
-      case TokenType::kBang:          name = "Bang"; break;
-      case TokenType::kBangEqual:     name = "BangEqual"; break;
-      case TokenType::kEqual:         name = "Equal"; break;
-      case TokenType::kEqualEqual:    name = "EqualEqual"; break;
-      case TokenType::kGreater:       name = "Greater"; break;
-      case TokenType::kGreaterEqual:  name = "GreaterEqual"; break;
-      case TokenType::kLess:          name = "Less"; break;
-      case TokenType::kLessEqual:     name = "LessEqual"; break;
-      case TokenType::kAndAnd:        name = "AndAnd"; break;
-      case TokenType::kOrOr:          name = "OrOr"; break;
-      case TokenType::kColon:         name = "Colon"; break;
-      case TokenType::kColonColon:    name = "ColonColon"; break;
-      case TokenType::kWalrus:        name = "Walrus"; break;
+      case TokenType::kBang:         name = "Bang"; break;
+      case TokenType::kBangEqual:    name = "BangEqual"; break;
+      case TokenType::kEqual:        name = "Equal"; break;
+      case TokenType::kEqualEqual:   name = "EqualEqual"; break;
+      case TokenType::kGreater:      name = "Greater"; break;
+      case TokenType::kGreaterEqual: name = "GreaterEqual"; break;
+      case TokenType::kLess:         name = "Less"; break;
+      case TokenType::kLessEqual:    name = "LessEqual"; break;
+      case TokenType::kAndAnd:       name = "AndAnd"; break;
+      case TokenType::kOrOr:         name = "OrOr"; break;
+      case TokenType::kColon:        name = "Colon"; break;
+      case TokenType::kColonColon:   name = "ColonColon"; break;
+      case TokenType::kWalrus:       name = "Walrus"; break;
 
       // Literals
-      case TokenType::kIdentifier:    name = "Identifier"; break;
-      case TokenType::kString:        name = "String"; break;
-      case TokenType::kNumber:        name = "Number"; break;
+      case TokenType::kIdentifier:   name = "Identifier"; break;
+      case TokenType::kString:       name = "String"; break;
+      case TokenType::kNumber:       name = "Number"; break;
 
       // Keywords
-      case TokenType::kFn:         name = "Fn"; break;
-      case TokenType::kAs:         name = "As"; break;
-      case TokenType::kFor:        name = "For"; break;
-      case TokenType::kBreak:      name = "Break"; break;
-      case TokenType::kIf:         name = "If"; break;
-      case TokenType::kElse:       name = "Else"; break;
-      case TokenType::kReturn:     name = "Return"; break;
-      case TokenType::kTrue:       name = "True"; break;
-      case TokenType::kFalse:      name = "False"; break;
-      case TokenType::kMut:        name = "Mut"; break;
-      case TokenType::kNamespace:  name = "Namespace"; break;
-      case TokenType::kStruct:     name = "Struct"; break;
-      case TokenType::kNull:      name = "Null"; break;
-      case TokenType::kInt32T:     name = "Int32T"; break;
-      case TokenType::kInt64T:     name = "Int64T"; break;
-      case TokenType::kFloat32T:   name = "Float32T"; break;
-      case TokenType::kFloat64T:   name = "Float64T"; break;
-      case TokenType::kBoolT:      name = "BoolT"; break;
-      case TokenType::kCharT:      name = "CharT"; break;
-      case TokenType::kStringT:    name = "StringT"; break;
-      case TokenType::kAnyT:       name = "AnyT"; break;
-      case TokenType::kEOF:        name = "EOF"; break;
-
-      case TokenType::kUnknown:    name = "Unknown"; break;
+      case TokenType::kFn:           name = "Fn"; break;
+      case TokenType::kAs:           name = "As"; break;
+      case TokenType::kFor:          name = "For"; break;
+      case TokenType::kBreak:        name = "Break"; break;
+      case TokenType::kIf:           name = "If"; break;
+      case TokenType::kElse:         name = "Else"; break;
+      case TokenType::kReturn:       name = "Return"; break;
+      case TokenType::kTrue:         name = "True"; break;
+      case TokenType::kFalse:        name = "False"; break;
+      case TokenType::kMut:          name = "Mut"; break;
+      case TokenType::kNamespace:    name = "Namespace"; break;
+      case TokenType::kStruct:       name = "Struct"; break;
+      case TokenType::kNull:         name = "Null"; break;
+      case TokenType::kInt32T:       name = "Int32T"; break;
+      case TokenType::kInt64T:       name = "Int64T"; break;
+      case TokenType::kFloat32T:     name = "Float32T"; break;
+      case TokenType::kFloat64T:     name = "Float64T"; break;
+      case TokenType::kBoolT:        name = "BoolT"; break;
+      case TokenType::kCharT:        name = "CharT"; break;
+      case TokenType::kStringT:      name = "StringT"; break;
+      case TokenType::kAnyT:         name = "AnyT"; break;
+      case TokenType::kEOF:          name = "EOF"; break;
+      case TokenType::kUnknown:      name = "Unknown"; break;
     }
+    // clang-format on
     return std::format_to(ctx.out(), "{}", name);
   }
 };
