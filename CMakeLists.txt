@@ -19,15 +19,23 @@ find_package(CLI11 REQUIRED)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug, Release)" FORCE)
+  set(CMAKE_BUILD_TYPE
+      Debug
+      CACHE STRING "Choose the type of build (Debug, Release)" FORCE)
 endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG)
 endif()
-target_compile_options(${PROJECT_NAME} PRIVATE
-  $<$<CONFIG:Debug>:-g -O0 -Wall -Wextra -U_FORTIFY_SOURCE>
-  $<$<CONFIG:Release>:-O3 -DNDEBUG -D_FORTIFY_SOURCE=2>
-)
+target_compile_options(
+  ${PROJECT_NAME}
+  PRIVATE $<$<CONFIG:Debug>:-g
+          -O0
+          -Wall
+          -Wextra
+          -U_FORTIFY_SOURCE>
+          $<$<CONFIG:Release>:-O3
+          -DNDEBUG
+          -D_FORTIFY_SOURCE=2>)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${llvm_libs})
 target_link_libraries(${PROJECT_NAME} PRIVATE CLI11::CLI11)
 target_include_directories(${PROJECT_NAME} PRIVATE include)
@@ -51,6 +59,5 @@ add_custom_target(
 # static analysis target
 add_custom_target(
   tidy
-  COMMAND clang-tidy ${CMAKE_SOURCE_DIR}/src/*.cpp -p ${CMAKE_BINARY_DIR} --
-          -I${CMAKE_SOURCE_DIR}/include --std=c++20
+  COMMAND run-clang-tidy -p ${CMAKE_BINARY_DIR}
   COMMENT "Check code with clang-tidy")
