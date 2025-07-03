@@ -6,13 +6,17 @@ project(
 )
 
 # Dependencies
-add_languages('c', native: false)  # for llvm
+add_languages('c', native: false) # for llvm
 llvm_dep = dependency('llvm', required: true)
 cli11_dep = dependency('CLI11', required: true)
 gtest_dep = dependency('gtest', main: true, required: true)
 
 inc_dir = include_directories('include')
 sources = files('src/main.cpp', 'src/scanner.cpp', 'src/test.cpp')
+
+if get_option('buildtype') == 'debug' or get_option('buildtype') == 'debugoptimized'
+  add_project_arguments('-DDEBUG', language: 'cpp')
+endif
 
 # Main executable
 executable(
