@@ -17,7 +17,7 @@ Nix with flakes enabled.
   
 1. Enter dev shell and generate build files
 ```sh
-nix develop
+nix develop # skip this if you have direnv
 meson setup build --buildtype=debug # debug build
 # OR
 meson setup build --buildtype=release # release build
@@ -32,7 +32,7 @@ meson compile -C build tidy # run clang-tidy
 
 3. Run
 ```sh
-./build/daisyc main.daisy utils.daisy -o program
+daisyc main.daisy utils.daisy -o program
 ```
   
 This project uses Google Test. Run tests with `meson test -C build`.  
