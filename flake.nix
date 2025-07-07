@@ -38,6 +38,7 @@
           shellHook = ''
             export CXX=clang++
             export CC=clang
+            export PATH="$PWD/build:$PATH"
           '';
         };
       }
